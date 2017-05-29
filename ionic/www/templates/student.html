@@ -1,0 +1,134 @@
+<ion-view view-title="Estudiant">
+  <ion-content>
+    <div class="container" ng-controller="StudentCtrl">
+
+      <div class="starter-template">
+        <h1><span class="label label-success">{{ students.length }}</span> estudiant/s</h1>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-1">
+          <table class="table table-striped">
+            <tr class="info">
+              <td>Nom</td>
+              <td>Adreça</td>
+              <td>Tipus</td>
+              <td>Número</td>
+            </tr>
+            <tr ng-repeat="student in students" ng-click="selectStudent(student)">
+              <td>{{ student.name }}</td>
+              <td>{{ student.address }}</td>
+              <td>
+                <div ng-repeat="phone in student.phones" ng-click="selectPhone(phone)">{{ phone.type }}<br>
+                </div>
+              </td>
+              <td>
+                <div ng-repeat="phone in student.phones" ng-click="selectPhone(phone)">{{ phone.number }}<br>
+                </div>
+              </td>
+            </tr>
+          </table>
+          <div>
+            <label>Filtra per nom</label>
+            <input type="text" class="form-control input-lg text-center"
+                   placeholder="Nom de l'estudiant" ng-model="newStudent.name">
+            <button type="submit" class="btn btn-success" ng-click="filterStudent()">Filtrar</button>
+            <br>
+            <label>Ordena alfabèticament</label>
+            <button type="submit" class="btn btn-success" ng-click="filterStudentOrderByName()">Acceptar</button>
+            <br>
+            <label>Filtra per titulació</label>
+            <select ng-model="study">
+              <option class="form-control input-lg text-center">Aeroespacials</option>
+              <option class="form-control input-lg text-center">Sistemes</option>
+              <option class="form-control input-lg text-center">Telematica</option>
+            </select>
+            <button type="submit" class="btn btn-success" ng-click="filterStudentByStudy(study)">Acceptar
+            </button>
+          </div>
+          <!-- Detall d'un alumne -->
+          <h3>Nom</h3>
+          <h4>{{newStudent.name}}</h4>
+          <h3>Adreça</h3>
+          <h4>{{newStudent.address}}</h4>
+          <h3>Assignatures matriculades</h3>
+          <h4 ng-repeat="subject in subjects">
+            <div ng-if="subject.students | contains:newStudent._id">
+              {{subject.name}}
+            </div>
+          </h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-1 text-center">
+          <h2>Administrar alumnes</h2>
+          <form name="myForm">
+            <div class="form-group">
+              <input type="text" class="form-control input-lg text-center" placeholder="Nom"
+                     ng-model="newStudent.name" required>
+              <br>
+              <input type="text" class="form-control input-lg text-center" placeholder="Adreça"
+                     ng-model="newStudent.address" required>
+              <br>
+            </div>
+
+            <!-- Acciones que podemos realizar en el formulario -->
+            <button type="submit" class="btn btn-success btn-lg" ng-click="registrarStudent()"
+                    ng-disabled="myForm.$invalid">Registrar
+            </button>
+            <button type="submit" class="btn btn-warning btn-lg" ng-click="modificarStudent(newStudent)"
+                    ng-disabled="!newStudent.name || !newStudent.address || !selected">
+              Modificar
+            </button>
+            <button type="submit" class="btn btn-danger btn-lg" ng-click="borrarStudent(newStudent)"
+                    ng-disabled="!newStudent.name || !newStudent.address || !selected">
+              Esborrar
+            </button>
+          </form>
+          <form name="myForm2">
+            <h2>Telèfons</h2>
+            <div class="form-group">
+              <input type="text" class="form-control input-lg text-center" placeholder="Tipus"
+                     ng-model="newStudent.type" required>
+              <br>
+              <input type="text" class="form-control input-lg text-center" placeholder="Número"
+                     ng-model="newStudent.number" required>
+            </div>
+
+            <!-- Acciones que podemos realizar en el formulario -->
+            <button type="submit" class="btn btn-success btn-lg" ng-click="registrarPhone()"
+                    ng-disabled="myForm2.$invalid">Registrar
+            </button>
+            </button>
+            <button type="submit" class="btn btn-danger btn-lg" ng-click="borrarPhone(newStudent)"
+                    ng-disabled="!newStudent.name || !newStudent.address || !newStudent.number || !newStudent.type || !selected">
+              Esborrar
+            </button>
+          </form>
+          <form name="myForm3">
+            <h2>Titulació</h2>
+            <div class="form-group">
+              <select ng-model="newStudent.study">
+                <option class="form-control input-lg text-center">Aeroespacials</option>
+                <option class="form-control input-lg text-center">Sistemes</option>
+                <option class="form-control input-lg text-center">Telematica</option>
+              </select>
+              <input type="text" class="form-control input-lg text-center" placeholder="Nom de la titulació"
+                     ng-model="newStudent.study" required>
+            </div>
+
+            <!-- Acciones que podemos realizar en el formulario -->
+            <button type="submit" class="btn btn-success btn-lg" ng-click="addStudy()"
+                    ng-disabled="myForm3.$invalid">Afegeix
+            </button>
+            </button>
+            <button type="submit" class="btn btn-danger btn-lg" ng-click="removeStudy(newStudent)"
+                    ng-disabled="!newStudent.name || !newStudent.address || !newStudent.study || !selected">
+              Esborrar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

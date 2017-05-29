@@ -1,0 +1,12 @@
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
+ionic/node_modules/
+ionic/platforms/
+ionic/plugins/
+
+node/node_modules
+.idea
+
+# KDE directory preferences
+.directory
